@@ -143,7 +143,7 @@ class _CatalogScreenState extends State<CatalogScreen> with TickerProviderStateM
                     return const CircularProgressIndicator.adaptive();
                   } 
                   else {
-                    return BannerListView(category: controller.restaurantsList.first.foodCategories!.first);
+                    return BannerListView(category: controller.restaurantsList.first.categories!.first);
                   }
                 }
               )
@@ -167,14 +167,14 @@ class _CatalogScreenState extends State<CatalogScreen> with TickerProviderStateM
                     primary: false,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: controller.restaurantsList.first.foodCategories!.length,//restaurantModel.foodCategories!.length,
+                    itemCount: controller.restaurantsList.first.categories!.length,//restaurantModel.foodCategories!.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       childAspectRatio: 3 / 4
                     ),
-                    itemBuilder: (context, index) => CategoryCard(caregory: controller.restaurantsList.first.foodCategories![index]),
+                    itemBuilder: (context, index) => CategoryCard(caregory: controller.restaurantsList.first.categories![index]),
                   );
                 }
               }

@@ -15,7 +15,7 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final category = Get.find<RestaurantController>().restaurantsList.first.foodCategories!.firstWhere((element) => element.id == categoryId);
+    final category = Get.find<RestaurantController>().restaurantsList.first.categories!.firstWhere((element) => element.id == categoryId);
     final theme = MyTheme.of(context);
 
     return Scaffold(
@@ -37,9 +37,9 @@ class CategoryScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              itemCount: category.foods.length,
+              itemCount: category.products.length,
               separatorBuilder: (context, index) => const SizedBox(height: 15),
-              itemBuilder: (context, index) => ProductItem(product: category.foods[index]),
+              itemBuilder: (context, index) => ProductItem(product: category.products[index]),
             ),
           ),
         ],

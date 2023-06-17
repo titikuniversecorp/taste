@@ -18,7 +18,7 @@ class _FoodListState extends State<FoodList> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController = TabController(length: widget.restaurant.foodCategories!.length, vsync: this);
+    tabController = TabController(length: widget.restaurant.categories!.length, vsync: this);
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _FoodListState extends State<FoodList> with TickerProviderStateMixin {
   }
   @override
   Widget build(BuildContext context) {
-    final category = widget.restaurant.foodCategories!;
+    final category = widget.restaurant.categories!;
     return Expanded(
       child: Column(
         children: [
@@ -61,9 +61,9 @@ class _FoodListState extends State<FoodList> with TickerProviderStateMixin {
               children: [
                 ...category.map((c) => ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                  itemCount: c.foods.length,
+                  itemCount: c.products.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 15),
-                  itemBuilder: (context, index) => ProductItem(product: c.foods[index]),
+                  itemBuilder: (context, index) => ProductItem(product: c.products[index]),
                 ))
               ]
             ),

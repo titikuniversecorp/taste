@@ -23,8 +23,8 @@ class CategoryCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: caregory.backgroundColor != null ? Color(caregory.backgroundColor!) : MyTheme.of(context).frontColor,
-          image: caregory.backgroundImage != null ? DecorationImage(
-            image: AssetImage(caregory.backgroundImage!),
+          image: caregory.backgroundImageUrl != null ? DecorationImage(
+            image: AssetImage(caregory.backgroundImageUrl!),
             fit: BoxFit.cover
           ) : null,
           boxShadow: const [

@@ -50,7 +50,7 @@ class _BannerListViewState extends State<BannerListView> {
           height: _bannerHeight,
           child: PageView.builder(
             controller: _pageController,
-            itemCount: widget.category.foods.length,
+            itemCount: widget.category.products.length,
             itemBuilder: (context, index) {
               Matrix4 matrix = Matrix4.identity();
               if (index == _currentPage.floor()) {
@@ -79,16 +79,16 @@ class _BannerListViewState extends State<BannerListView> {
                 transform: matrix,
                 child: GestureDetector(
                   onTap: () {
-                    Get.toNamed(RouteHelper.product(widget.category.foods[index].id));
+                    Get.toNamed(RouteHelper.product(widget.category.products[index].id));
                   },
-                  child: BannerItem(food: widget.category.foods[index], height: _bannerContainerHeight, textHeight: _bannerTextHeight)
+                  child: BannerItem(food: widget.category.products[index], height: _bannerContainerHeight, textHeight: _bannerTextHeight)
                 )
               );
             }
           ),
         ),
         DotsIndicator(
-          dotsCount: widget.category.foods.length,
+          dotsCount: widget.category.products.length,
           position: _currentPage.round(),
           decorator: DotsDecorator(
             activeColor: MyTheme.of(context).brandColor,

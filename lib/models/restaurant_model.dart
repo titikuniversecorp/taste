@@ -12,7 +12,7 @@ class RestaurantModel {
   final String? logoUrl;
   final String? description;
   final String currency;
-  final List<ProductCategoryModel>? foodCategories;
+  final List<ProductCategoryModel>? categories;
 
   RestaurantModel({
     required this.id,
@@ -24,7 +24,7 @@ class RestaurantModel {
     this.logoUrl,
     this.description,
     required this.currency,
-    this.foodCategories
+    this.categories
   });
 
   factory RestaurantModel.restaurantFromJson(String str) => RestaurantModel.fromJson(json.decode(str));
@@ -43,7 +43,7 @@ class RestaurantModel {
     logoUrl: json["logoUrl"],
     description: json["description"],
     currency: json["currency"],
-    foodCategories: json["foodCategories"] == null ? [] : List<ProductCategoryModel>.from(json["foodCategories"]!.map((x) => ProductCategoryModel.fromJson(x))),
+    categories: json["foodCategories"] == null ? [] : List<ProductCategoryModel>.from(json["foodCategories"]!.map((x) => ProductCategoryModel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -56,6 +56,6 @@ class RestaurantModel {
     "logoUrl": logoUrl,
     "description": description,
     "currency": currency,
-    "foodCategories": foodCategories == null ? [] : List<dynamic>.from(foodCategories!.map((x) => x.toJson())),
+    "foodCategories": categories == null ? [] : List<dynamic>.from(categories!.map((x) => x.toJson())),
   };
 }

@@ -17,13 +17,13 @@ class MockDataGenerator {
       logoUrl: "assets/images/res_logo.png",
       description: "В этой концепции ваш ресторан представляет собой виртуальный мир вкусов, где гости могут погрузиться в уникальное путешествие по разнообразным вкусам. Каждое блюдо становится отдельным пунктом на кулинарной карте этого удивительного мира, и гости приглашаются насладиться разнообразием вкусовых переживаний",
       currency: '₽',
-      foodCategories: [
+      categories: [
         ProductCategoryModel(
           id: 0,
           name: 'Сэм меню',
-          backgroundImage: 'assets/categories/sam-menu.png',
+          backgroundImageUrl: 'assets/categories/sam-menu.png',
           backgroundColor: null,
-          foods: [
+          products: [
             ProductModel(
               id: 0,
               name: 'Сэмбургер',
@@ -108,9 +108,9 @@ class MockDataGenerator {
         ProductCategoryModel(
           id: 1,
           name: 'Мит Маффины',
-          backgroundImage: 'assets/categories/burgers.png',
+          backgroundImageUrl: 'assets/categories/burgers.png',
           backgroundColor: null,
-          foods: [
+          products: [
             ProductModel(
               id: 4,
               name: 'Мит Маффин',
@@ -175,9 +175,9 @@ class MockDataGenerator {
         ProductCategoryModel(
           id: 2,
           name: 'Закуски',
-          backgroundImage: 'assets/categories/starters.png',
+          backgroundImageUrl: 'assets/categories/starters.png',
           backgroundColor: null,
-          foods: [
+          products: [
             ProductModel(
               id: 7,
               name: 'Картофельный оладушек',

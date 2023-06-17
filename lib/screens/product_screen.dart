@@ -26,8 +26,8 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    for (var element in Get.find<RestaurantController>().restaurantsList.first.foodCategories!) {
-      final findedEl = element.foods.firstWhereOrNull((food) => food.id == widget.productId);
+    for (var element in Get.find<RestaurantController>().restaurantsList.first.categories!) {
+      final findedEl = element.products.firstWhereOrNull((food) => food.id == widget.productId);
       if (findedEl != null) {
         product = findedEl;
         break;

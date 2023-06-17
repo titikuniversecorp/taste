@@ -7,16 +7,16 @@ import '../utils/string_to_hex.dart';
 class ProductCategoryModel {
     final int id;
     final String name;
-    final String? backgroundImage;
+    final String? backgroundImageUrl;
     final int? backgroundColor;
-    final List<ProductModel> foods;
+    final List<ProductModel> products;
 
     ProductCategoryModel({
         required this.id,
         required this.name,
-        this.backgroundImage,
+        this.backgroundImageUrl,
         this.backgroundColor,
-        required this.foods,
+        required this.products,
     });
 
     factory ProductCategoryModel.foodCategoryFromJson(String str) => ProductCategoryModel.fromJson(json.decode(str));
@@ -28,16 +28,16 @@ class ProductCategoryModel {
     factory ProductCategoryModel.fromJson(Map<String, dynamic> json) => ProductCategoryModel(
         id: json["id"],
         name: json["name"],
-        backgroundImage: json["backgroundImage"],
+        backgroundImageUrl: json["backgroundImage"],
         backgroundColor: StringToHex.toColor(json["backgroundColor"]),
-        foods: List<ProductModel>.from(json["foods"]!.map((x) => ProductModel.fromJson(x))),
+        products: List<ProductModel>.from(json["foods"]!.map((x) => ProductModel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "backgroundImage": backgroundImage,
+        "backgroundImage": backgroundImageUrl,
         "backgroundColor": backgroundColor.toString(),
-        "foods": List<dynamic>.from(foods.map((x) => x.toJson())),
+        "foods": List<dynamic>.from(products.map((x) => x.toJson())),
     };
 }
