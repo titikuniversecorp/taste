@@ -2,15 +2,16 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../models/product_category.dart';
+import '../../../models/banner_model.dart';
 import '../../../routes/route_helper.dart';
 import '../../../theme/my_theme.dart';
 import 'banner_item.dart';
+import 'banner_stacked_item.dart';
 
 class BannerListView extends StatefulWidget {
-  const BannerListView({super.key, required this.category});
+  const BannerListView({super.key, this.banners});
 
-  final ProductCategoryModel category;
+  final List<BannerModel>? banners;
 
   @override
   State<BannerListView> createState() => _BannerListViewState();
@@ -20,9 +21,7 @@ class _BannerListViewState extends State<BannerListView> {
   late final PageController _pageController;
   double _currentPage = 0.0;
   final double _scaleFactor = 0.8;
-  final double _bannerHeight = 290;
   final double _bannerContainerHeight = 200;
-  final double _bannerTextHeight = 110;
 
   @override
   void initState() {
@@ -44,51 +43,68 @@ class _BannerListViewState extends State<BannerListView> {
   
   @override
   Widget build(BuildContext context) {
+    if (widget.banners == null || widget.banners!.isEmpty) return const SizedBox();
     return Column(
       children: [
         SizedBox(
-          height: _bannerHeight,
+          height: 235,
           child: PageView.builder(
             controller: _pageController,
-            itemCount: widget.category.products.length,
+            itemCount: widget.banners!.length,
             itemBuilder: (context, index) {
               Matrix4 matrix = Matrix4.identity();
               if (index == _currentPage.floor()) {
                 var currScale = 1 - (_currentPage - index) * (1 - _scaleFactor);
                 var currTrans = _bannerContainerHeight * (1 - currScale) / 2;
-                matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, currTrans, 0);
+                matrix = Matrix4.diagonal3Values(1, currScale, 1)
+                  ..setTranslationRaw(0, currTrans, 0);
               }
               else if (index == _currentPage.floor() + 1) {
                 var currScale = _scaleFactor + (_currentPage - index + 1) * (1 - _scaleFactor);
                 var currTrans = _bannerContainerHeight * (1 - currScale) / 2;
                 matrix = Matrix4.diagonal3Values(1, currScale, 1);
-                matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, currTrans, 0);
+                matrix = Matrix4.diagonal3Values(1, currScale, 1)
+                  ..setTranslationRaw(0, currTrans, 0);
               }
               else if (index == _currentPage.floor() - 1) {
                 var currScale = 1 - (_currentPage - index) * (1 - _scaleFactor);
                 var currTrans = _bannerContainerHeight * (1 - currScale) / 2;
                 matrix = Matrix4.diagonal3Values(1, currScale, 1);
-                matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, currTrans, 0);
+                matrix = Matrix4.diagonal3Values(1, currScale, 1)
+                  ..setTranslationRaw(0, currTrans, 0);
               }
               else {
                 var currScale = _scaleFactor;
-                matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, _bannerContainerHeight * (1 - _scaleFactor) / 2, 1);
+                matrix = Matrix4.diagonal3Values(1, currScale, 1)
+                  ..setTranslationRaw(0, _bannerContainerHeight * (1 - _scaleFactor) / 2, 1);
               }
 
               return Transform(
                 transform: matrix,
-                child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed(RouteHelper.product(widget.category.products[index].id));
-                  },
-                  child: BannerItem(food: widget.category.products[index], height: _bannerContainerHeight, textHeight: _bannerTextHeight)
+                child: true ? SizedBox(
+                  height: _bannerContainerHeight,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (widget.banners![index].linkedProduct != null) Get.toNamed(RouteHelper.product(widget.banners![index].linkedProduct!.id));
+                    },
+                    child: BannerItem(banner: widget.banners![index])
+                  ),
+                )
+                : SizedBox(
+                  height: _bannerContainerHeight,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (widget.banners![index].linkedProduct != null) Get.toNamed(RouteHelper.product(widget.banners![index].linkedProduct!.id));
+                    },
+                    child: BannerStackedItem(banner: widget.banners?[index])
+                  ),
                 )
               );
             }
           ),
         ),
-        DotsIndicator(
-          dotsCount: widget.category.products.length,
+        if (widget.banners!.length > 1) DotsIndicator(
+          dotsCount: widget.banners!.length,
           position: _currentPage.round(),
           decorator: DotsDecorator(
             activeColor: MyTheme.of(context).brandColor,

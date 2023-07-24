@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:taste/models/product_category.dart';
 
+import 'banner_model.dart';
+
 class RestaurantModel {
   final int id;
   final String name;
@@ -13,6 +15,7 @@ class RestaurantModel {
   final String? description;
   final String currency;
   final List<ProductCategoryModel>? categories;
+  final List<BannerModel>? banners;
 
   RestaurantModel({
     required this.id,
@@ -24,7 +27,8 @@ class RestaurantModel {
     this.logoUrl,
     this.description,
     required this.currency,
-    this.categories
+    this.categories,
+    this.banners
   });
 
   factory RestaurantModel.restaurantFromJson(String str) => RestaurantModel.fromJson(json.decode(str));
@@ -44,6 +48,7 @@ class RestaurantModel {
     description: json["description"],
     currency: json["currency"],
     categories: json["foodCategories"] == null ? [] : List<ProductCategoryModel>.from(json["foodCategories"]!.map((x) => ProductCategoryModel.fromJson(x))),
+    banners: json["banners"] == null ? [] : List<BannerModel>.from(json["banners"]!.map((x) => BannerModel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +62,6 @@ class RestaurantModel {
     "description": description,
     "currency": currency,
     "foodCategories": categories == null ? [] : List<dynamic>.from(categories!.map((x) => x.toJson())),
+    "banners": banners == null ? [] : List<dynamic>.from(banners!.map((x) => x.toJson())),
   };
 }

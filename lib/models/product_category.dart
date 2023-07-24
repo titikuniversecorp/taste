@@ -28,7 +28,7 @@ class ProductCategoryModel {
     factory ProductCategoryModel.fromJson(Map<String, dynamic> json) => ProductCategoryModel(
         id: json["id"],
         name: json["name"],
-        backgroundImageUrl: json["backgroundImage"],
+        backgroundImageUrl: json["backgroundImageUrl"],
         backgroundColor: StringToHex.toColor(json["backgroundColor"]),
         products: List<ProductModel>.from(json["foods"]!.map((x) => ProductModel.fromJson(x))),
     );
@@ -36,7 +36,7 @@ class ProductCategoryModel {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "backgroundImage": backgroundImageUrl,
+        "backgroundImageUrl": backgroundImageUrl,
         "backgroundColor": backgroundColor.toString(),
         "foods": List<dynamic>.from(products.map((x) => x.toJson())),
     };

@@ -143,7 +143,7 @@ class _CatalogScreenState extends State<CatalogScreen> with TickerProviderStateM
                     return const CircularProgressIndicator.adaptive();
                   } 
                   else {
-                    return BannerListView(category: controller.restaurantsList.first.categories!.first);
+                    return BannerListView(banners: controller.restaurantsList.first.banners);
                   }
                 }
               )

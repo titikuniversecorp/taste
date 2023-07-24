@@ -1,112 +1,60 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
-import '../../../widgets/icon_and_text.dart';
-import '../../../models/product_model.dart';
+import '../../../models/banner_model.dart';
 import '../../../theme/my_theme.dart';
 
 class BannerItem extends StatelessWidget {
-  const BannerItem({super.key, required this.food, this.height = 220, this.textHeight = 120});
+  const BannerItem({super.key, required this.banner});
 
-  final ProductModel food;
-  final double height;
-  final double textHeight;
+  final BannerModel banner;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: height,
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          width: double.maxFinite,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: MyTheme.of(context).frontColor
-          ),
-          child: Image.asset(
-            food.imageUrl!,
-            fit: BoxFit.contain
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: textHeight,
-            margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: MyTheme.of(context).frontColor,
-              boxShadow: [
-                BoxShadow(
-                  color: MyTheme.of(context).shadowColor,
-                  blurRadius: 5,
-                  offset: const Offset(0, 5)
-                ),
-                BoxShadow(
-                  color: MyTheme.of(context).frontColor,
-                  offset: const Offset(-5, 0)
-                ),
-                BoxShadow(
-                  color: MyTheme.of(context).frontColor,
-                  offset: const Offset(5, 0)
-                )
-              ]
-            ),
+    var theme = MyTheme.of(context);
+    return Container(
+      margin: const Pad(horizontal: 10, vertical: 5),
+      // clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: theme.frontColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
             child: Container(
-              padding: const EdgeInsets.only(top: 15, left:  15, right: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: Text(
-                      food.name,
-                      style: MyTheme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Wrap(
-                        children: List.generate(5, (index) => Icon(Icons.star, color: MyTheme.of(context).brandColor, size: 15)),
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        (food.score ?? 0).toString(),
-                        style: MyTheme.of(context).textTheme.labelSmall!.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 10),
-                      Flexible(
-                        child: Text(
-                          '${food.commentCount} комментариев',
-                          overflow: TextOverflow.ellipsis,
-                          style: MyTheme.of(context).textTheme.labelSmall!.copyWith(fontSize: 14, fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      IconAndText(
-                        icon: Icons.access_time,
-                        text: Constants.getWaitTime(food.waitTime),
-                        iconColor: Colors.blue
-                      ),
-                      const SizedBox(width: 15),
-                      IconAndText(
-                        icon: Icons.currency_ruble_rounded,
-                        text: food.price.toStringAsFixed(0),
-                        iconColor: Colors.green
-                      )
-                    ],
-                  )
-                ],
+              width: double.maxFinite,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.iconColor.withOpacity(.4), strokeAlign: BorderSide.strokeAlignOutside),
+                borderRadius: BorderRadius.circular(20)
               ),
-            ),
+              child: banner.backgroundImageUrl != null ? Image.asset(banner.backgroundImageUrl!, fit: BoxFit.cover,) : const SizedBox(),
+            )
           ),
-        ),
-      ],
+          Padding(
+            padding: const Pad(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextOneLine(
+                  banner.label,
+                  style: theme.textTheme.labelMedium!.copyWith(fontSize: 20),
+                ),
+                if (banner.description != null) Text(
+                  banner.description!,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

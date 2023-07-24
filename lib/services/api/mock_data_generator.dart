@@ -1,4 +1,6 @@
 
+import 'package:taste/models/banner_model.dart';
+
 import '../../models/product_category.dart';
 import '../../models/product_model.dart';
 import '../../models/ingridient_model.dart';
@@ -223,7 +225,42 @@ class MockDataGenerator {
             )
           ]
         ),
-      ]
+      ],
+      banners: [
+        BannerModel(
+          id: 0,
+          label: 'Тут сочный бургер 🍔',
+          description: 'Купи чтобы вкусно покушать сегодня',
+          backgroundImageUrl: 'assets/banners/banner3.jpg',
+          linkedProduct: ProductModel(
+            id: 0,
+            name: 'Сэмбургер',
+            calories: 254,
+            price: 389,
+            weight: 350,
+            waitTime: [const Duration(minutes: 15)],
+            imageUrl: 'assets/dishes/sam_menu/samburger/samburger.png',
+            galleryImages: [
+              'assets/dishes/sam_menu/samburger/samburger.png',
+            ],
+            about: 'Флагманский огромный бургер',
+            description: null,
+            score: 4.7,
+            ingridients: [
+              IngridientModel(id: 0, name: 'Лапша', imageUrl: 'assets/images/ingre1.png'),
+              IngridientModel(id: 1, name: 'Креветка', imageUrl: 'assets/images/ingre2.png'),
+              IngridientModel(id: 2, name: 'Яйцо', imageUrl: 'assets/images/ingre3.png'),
+              IngridientModel(id: 3, name: 'Зелень', imageUrl: 'assets/images/ingre4.png'),
+            ]
+          ),
+        ),
+        BannerModel(
+          id: 2,
+          label: 'Выгодное предложение!',
+          description: 'Купи пиццу и вторая в подарок 😱',
+          backgroundImageUrl: 'assets/banners/banner2.jpg'
+        )
+      ],
     );
   }
 }
