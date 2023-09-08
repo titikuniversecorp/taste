@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:taste/screens/cart/cart_screen.dart';
 
-import '../screens/catalog/catalog_screen.dart';
+import '../screens/home/home_screen.dart';
 import '../screens/category/category_view_screen.dart';
 import '../screens/intro_screen.dart';
 import '../screens/product_screen.dart';
@@ -22,7 +22,7 @@ class RouteHelper {
 
   static List<GetPage> routes = [
     GetPage(name: _initial, page: () => const IntroScreen()),
-    GetPage(name: _catalog, page: () => const CatalogScreen()),
+    GetPage(name: _catalog, page: () => const HomeScreen()),
     GetPage(name: _category, page: () {
       int categoryId = Get.parameters.containsKey('cId') ? int.parse(Get.parameters['cId']!) : -1;
       return CategoryScreen(categoryId: categoryId);

@@ -1,6 +1,3 @@
-// ignore_for_file: curly_braces_in_flow_control_structures
-
-
 import 'package:get/get.dart';
 import 'package:taste/models/restaurant_model.dart';
 import 'package:taste/services/api/mock_data_generator.dart';
@@ -15,9 +12,9 @@ class RestaurantController extends GetxController {
   List<RestaurantModel> get restaurantsList => _restaurantsList;
 
   bool _isLoading = true;
-  bool get isLoading => _isLoading;  
+  bool get isLoading => _isLoading;
 
-  Future getRestaurans() async {
+  Future<List<RestaurantModel>> getRestaurans() async {
     final mockData = await MockDataGenerator.getRestaurantMockData();
     Response response = Response(statusCode: 200, body: mockData.toJson());//await restaurantRepo.getRestaurants();
     if (response.statusCode == 200) {
@@ -29,5 +26,6 @@ class RestaurantController extends GetxController {
     else {
 
     }
+    return restaurantsList;
   }
 }

@@ -8,6 +8,11 @@ import '../../../theme/my_theme.dart';
 import 'banner_item.dart';
 import 'banner_stacked_item.dart';
 
+enum BannerUIVariant {
+  withInfoInCard,
+  imageAndLabelInColumn
+}
+
 class BannerListView extends StatefulWidget {
   const BannerListView({super.key, this.banners});
 
@@ -18,6 +23,7 @@ class BannerListView extends StatefulWidget {
 }
 
 class _BannerListViewState extends State<BannerListView> {
+  final BannerUIVariant bannerUIVariant = BannerUIVariant.imageAndLabelInColumn;
   late final PageController _pageController;
   double _currentPage = 0.0;
   final double _scaleFactor = 0.8;
@@ -81,22 +87,13 @@ class _BannerListViewState extends State<BannerListView> {
 
               return Transform(
                 transform: matrix,
-                child: true ? SizedBox(
+                child: SizedBox(
                   height: _bannerContainerHeight,
                   child: GestureDetector(
                     onTap: () {
                       if (widget.banners![index].linkedProduct != null) Get.toNamed(RouteHelper.product(widget.banners![index].linkedProduct!.id));
                     },
-                    child: BannerItem(banner: widget.banners![index])
-                  ),
-                )
-                : SizedBox(
-                  height: _bannerContainerHeight,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (widget.banners![index].linkedProduct != null) Get.toNamed(RouteHelper.product(widget.banners![index].linkedProduct!.id));
-                    },
-                    child: BannerStackedItem(banner: widget.banners?[index])
+                    child: _getBanner(index)
                   ),
                 )
               );
@@ -115,5 +112,16 @@ class _BannerListViewState extends State<BannerListView> {
         )
       ],
     );
+  }
+
+  Widget _getBanner(int index) {
+    switch (bannerUIVariant) {
+      case BannerUIVariant.imageAndLabelInColumn:
+        return BannerItem(banner: widget.banners![index]);
+      case BannerUIVariant.withInfoInCard:
+        return BannerStackedItem(banner: widget.banners?[index]);
+      default:
+        return const Text('Ошибка: BannerStackedItem not selected');
+    }
   }
 }
