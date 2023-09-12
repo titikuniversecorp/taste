@@ -125,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       onTap: () {
                         showCupertinoModalBottomSheet(
                           context: context,
+                          enableDrag: false,
+                          backgroundColor: MyTheme.of(context).backgroundColor,
                           builder: (context) => const ProfileScreen(),
                         );
                       },

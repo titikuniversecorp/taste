@@ -23,7 +23,7 @@ class MockDataGenerator {
         ProductCategoryModel(
           id: 0,
           name: 'Сэм меню',
-          backgroundImageUrl: 'assets/categories/sam-menu.png',
+          backgroundImageUrl: 'assets/dishes/sam_menu/samburger/samburger.png', // assets/categories/sam-menu.png
           backgroundColor: null,
           products: [
             ProductModel(
@@ -110,7 +110,7 @@ class MockDataGenerator {
         ProductCategoryModel(
           id: 1,
           name: 'Мит Маффины',
-          backgroundImageUrl: 'assets/categories/burgers.png',
+          backgroundImageUrl: 'assets/dishes/meat_maffin/meatmaffin-light.png', // assets/categories/burgers.png
           backgroundColor: null,
           products: [
             ProductModel(
@@ -177,7 +177,7 @@ class MockDataGenerator {
         ProductCategoryModel(
           id: 2,
           name: 'Закуски',
-          backgroundImageUrl: 'assets/categories/starters.png',
+          backgroundImageUrl: 'assets/dishes/potato_pancakes/hashbraun.png', // assets/categories/starters.png
           backgroundColor: null,
           products: [
             ProductModel(
