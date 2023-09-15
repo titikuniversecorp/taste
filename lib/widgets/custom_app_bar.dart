@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'circle_icon_button.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key, this.leading, this.title, this.actions, this.automaticlyImplLeading = true});
+  const CustomAppBar({super.key, this.leading, this.title, this.actions, this.margin, this.automaticlyImplLeading = true});
 
   final Widget? leading;
   final Widget? title;
   final List<Widget>? actions;
   final bool automaticlyImplLeading;
+  final EdgeInsets? margin;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class CustomAppBar extends StatelessWidget {
         right: 25,
         bottom: 10
       ),
+      margin: margin,
       child: Stack(
         alignment: Alignment.center,
         children: [

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:taste/widgets/custom_app_bar.dart';
 
 import '../controllers/user_addresses_comtroller.dart';
 import '../theme/my_theme.dart';
 
 class AddressSelectScreen extends StatefulWidget {
-  const AddressSelectScreen({super.key});
+  const AddressSelectScreen({super.key, this.showAppBar = false});
+
+  final bool showAppBar;
 
   @override
   State<AddressSelectScreen> createState() => _AddressSelectScreenState();
 }
 
 class _AddressSelectScreenState extends State<AddressSelectScreen> {
+  _AddressSelectScreenState() {
+    Get.find<UserAddressesController>().getUserAddresses();
+  }
+
   bool _topFlag = false;
   final _formKey = GlobalKey<FormState>();
   int _selectedValue = 0;
@@ -19,8 +26,6 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = MyTheme.of(context);
-    var mq = MediaQuery.of(context);
-    Get.find<UserAddressesController>().getUserAddresses();
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       body: NotificationListener<ScrollNotification>(
@@ -34,9 +39,12 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           children: [
-            Text(
-              'Мои адреса',
-              style: theme.textTheme.labelMedium,
+            if (widget.showAppBar) CustomAppBar(
+              margin: const EdgeInsets.only(bottom: 10),
+              title: Text(
+                'Мои адреса',
+                style: theme.textTheme.titleSmall,
+              ),
             ),
             GetBuilder<UserAddressesController>(
               builder: (controller) {
@@ -61,7 +69,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                         onChanged: (value) {
                           setState(() {
                             // _selectedValue = index;
-                            Get.find<UserAddressesController>().setCurrentUserAddress(controller.userAdressesList[index]);
+                            controller.setCurrentUserAddress(controller.userAdressesList[index]);
                           });
                         },
                       );
@@ -71,7 +79,9 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
               }
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                // todo: open add_new_address_screen
+              },
               child: const Text(
                 'Добавить новый адрес',
               )

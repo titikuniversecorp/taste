@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/my_theme.dart';
+import 'address_select_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -55,14 +56,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const ProfileButtonItem(
               title: 'Мои заказы',
             ),
-            const ProfileButtonItem(
-              title: 'Чеки',
+            ProfileButtonItem(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddressSelectScreen(showAppBar: true)));
+              },
+              title: 'Мои адреса',
             ),
             const ProfileButtonItem(
               title: 'Способы оплаты',
-            ),
-            const ProfileButtonItem(
-              title: 'Адреса',
             ),
             const ProfileButtonItem(
               title: 'Статистика',
