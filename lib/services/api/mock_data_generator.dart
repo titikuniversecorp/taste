@@ -1,12 +1,30 @@
 
-import 'package:taste/models/banner_model.dart';
-
+import '../../models/banner_model.dart';
 import '../../models/product_category.dart';
 import '../../models/product_model.dart';
 import '../../models/ingridient_model.dart';
 import '../../models/restaurant_model.dart';
+import '../../models/user_address_model.dart';
 
 class MockDataGenerator {
+  static Future<List<UserAddressModel>> getUserAdresses() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return [
+      UserAddressModel(
+        id: 1,
+        city: 'Тула',
+        street: 'Агеева',
+        house: '1А'
+      ),
+      UserAddressModel(
+        id: 2,
+        city: 'Тула',
+        street: 'Проспект Ленина',
+        house: '98'
+      )
+    ];
+  }
+
   static Future<RestaurantModel> getRestaurantMockData() async {
     await Future.delayed(const Duration(milliseconds: 500));
     return RestaurantModel(

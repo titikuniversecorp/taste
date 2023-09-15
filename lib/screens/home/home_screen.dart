@@ -1,13 +1,16 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:taste/screens/category/category_view_screen.dart';
+import 'package:taste/controllers/user_addresses_comtroller.dart';
 import 'package:taste/screens/category/components/product_item.dart';
 
 import '../../controllers/restaurant_controller.dart';
+import '../../models/user_address_model.dart';
 import '../../theme/my_theme.dart';
 import '../../widgets/floating_cart_button.dart';
+import '../address_select_screen.dart';
 import '../profile_screen.dart';
 import 'components/banner_list_view.dart';
 import 'components/category_card.dart';
@@ -100,16 +103,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: Row(
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showCupertinoModalBottomSheet(
+                          context: context,
+                          enableDrag: false,
+                          backgroundColor: MyTheme.of(context).backgroundColor,
+                          builder: (context) => const AddressSelectScreen(),
+                        );
+                      },
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
                         margin: const EdgeInsets.all(6),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              'Агеева, 1А',
-                              style: MyTheme.of(context).textTheme.labelMedium,
+                            GetBuilder<UserAddressesController>(
+                              builder: (controller) {
+                                UserAddressModel? userAddressModel = controller.getCurrentUserAddress();
+                                String currentAddress = userAddressModel != null ? userAddressModel.shortAddressAsString : 'Выберите адрес';
+                                return TextOneLine(
+                                  currentAddress,
+                                  style: MyTheme.of(context).textTheme.labelMedium,
+                                );
+                              }
                             ),
                             Icon(
                               Icons.keyboard_arrow_down_rounded,

@@ -24,7 +24,7 @@ class RestaurantController extends GetxController {
       update();
     }
     else {
-
+      // todo: handle error
     }
     return restaurantsList;
   }

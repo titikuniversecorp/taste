@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taste/controllers/cart_controller.dart';
 
 import 'helpers/dependencies.dart';
@@ -14,8 +15,8 @@ Future main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
   ]);
-
-  init();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  init(sharedPreferences: prefs);
   runApp(const MyApp());
 }
 
