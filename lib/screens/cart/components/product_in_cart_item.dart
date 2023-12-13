@@ -63,7 +63,7 @@ class ProductInCartItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodySmall!.copyWith(height: 2)
                       ),
-                      const Text(' • '),
+                      Text(' • ', style: theme.textTheme.bodySmall),
                       Text(
                         '${product.weight} г',
                         maxLines: 1,
@@ -77,7 +77,7 @@ class ProductInCartItem extends StatelessWidget {
             ),
           ),
           ProductQuantityChanger(
-            product: product,
+            products: [product],
             showTotalPrice: true,
             margin: const EdgeInsets.all(10),
           )

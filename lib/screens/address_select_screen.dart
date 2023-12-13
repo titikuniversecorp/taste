@@ -30,7 +30,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       body: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
+        onNotification: widget.showAppBar ? null : (notification) {
           if (notification.metrics.pixels <= -50 && _topFlag == false) {
             _topFlag = true;
             Navigator.pop(context);
@@ -39,6 +39,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
         },
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          physics: widget.showAppBar ? const ClampingScrollPhysics() : null,
           children: [
             if (widget.showAppBar) CustomAppBar(
               margin: const EdgeInsets.only(bottom: 10),

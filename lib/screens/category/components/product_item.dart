@@ -84,14 +84,14 @@ class ProductItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${productContainer.products.first.price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}',
+                          productContainer.products.length == 1 ? '${productContainer.products.first.price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}' : 'От ${productContainer.products.first.price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}',
                           style: theme.textTheme.bodySmall!.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           )
                         ),
-                        Text(' • ', style: theme.textTheme.bodySmall),
-                        Text(
+                        if (productContainer.products.length == 1) Text(' • ', style: theme.textTheme.bodySmall),
+                        if (productContainer.products.length == 1) Text(
                           '${productContainer.products.first.weight} г',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -99,7 +99,7 @@ class ProductItem extends StatelessWidget {
                         ),
                         const Spacer(),
                         ProductQuantityChanger(
-                          product: productContainer.products.first,
+                          products: productContainer.products,
                           showTotalPrice: false
                         )
                       ],

@@ -74,24 +74,38 @@ class CartController extends GetxController {
   }
 
   int getProductQuantity(ProductModel product) {
-    var quantity = 0;
+    int quantity = 0;
     if (_items.containsKey(product.id)) {
-      _items.forEach((key, value) {
-        if (key == product.id) {
-          quantity = value.quantity;
-        }
-      });
+        _items.forEach((key, value) {
+          if (key == product.id) {
+            quantity = value.quantity;
+          }
+        });
+      }
+    return quantity;
+  }
+
+  int getProductContainerQuantity(List<ProductModel> products) {
+    int quantity = 0;
+    for (var product in products) {
+      if (_items.containsKey(product.id)) {
+        _items.forEach((key, value) {
+          if (key == product.id) {
+            quantity += value.quantity;
+          }
+        });
+      }
     }
     return quantity;
   }
 
-  void setProductQuantity(ProductModel product, bool isAdd) {
+  void setProductQuantity(ProductModel product, {required bool isAddition}) {
     final quantity = getProductQuantity(product);
-    int newQuantity = isAdd ? _checkQuantity(quantity + 1) : _checkQuantity(quantity - 1);
+    int newQuantity = isAddition ? _tryGetNewQuantity(quantity + 1) : _tryGetNewQuantity(quantity - 1);
     addItem(product, newQuantity);
   }
 
-  int _checkQuantity(int value) {
+  int _tryGetNewQuantity(int value) {
     if (value < 0) {
       Vibrate.feedback(FeedbackType.error);
       // Get.snackbar('Ой...', 'Вы не можете убавить ещё', backgroundColor: MyTheme.of(Get.context!).brandColor, colorText: Colors.black, icon: const Icon(Icons.error_outline));
@@ -103,5 +117,19 @@ class CartController extends GetxController {
       return 20;
     }
     else return value;
+  }
+
+  bool validateQuantity(int value) {
+    if (value < 0) {
+      Vibrate.feedback(FeedbackType.error);
+      // Get.snackbar('Ой...', 'Вы не можете убавить ещё', backgroundColor: MyTheme.of(Get.context!).brandColor, colorText: Colors.black, icon: const Icon(Icons.error_outline));
+      return false;
+    }
+    else if (value > 20) {
+      Vibrate.feedback(FeedbackType.error);
+      // Get.snackbar('Ой...', 'Вы не можете добавить ещё', backgroundColor: MyTheme.of(Get.context!).brandColor, colorText: Colors.black, icon: const Icon(Icons.error_outline));
+      return false;
+    }
+    else return true;
   }
 }

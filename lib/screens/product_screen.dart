@@ -1,8 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:popover/popover.dart';
 import 'package:taste/constants.dart';
 import 'package:taste/controllers/restaurant_controller.dart';
+import 'package:taste/models/product_category.dart';
 import 'package:taste/models/product_model.dart';
 import 'package:taste/theme/my_theme.dart';
 import 'package:taste/widgets/circle_icon_button.dart';
@@ -20,25 +22,32 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  late final ProductModel product;
+  late ProductContainerModel productContainer;
+  ProductModel get product => productContainer.products.first;
+  
   late final PageController _pageController;
   double _currentPage = 0.0;
   bool _topFlag = false;
 
   @override
   void initState() {
-    bool elFinded = false;
-    for (var element in Get.find<RestaurantController>().restaurantsList.first.categories!) {
-      for (var pContainer in element.productContainers) {
-        ProductModel? findedEl = pContainer.products.firstWhereOrNull((food) => food.id == widget.productId);
-        if (findedEl != null) {
-          product = findedEl;
-          elFinded = true;
-          break;
-        }
-      }
-      if (elFinded) break;
+    for (var category in Get.find<RestaurantController>().restaurantsList.first.categories!) {
+      ProductContainerModel? finedProductContainer = category.productContainers.firstWhereOrNull((element) => element.id == widget.productId);
+      if (finedProductContainer != null) productContainer = finedProductContainer;
     }
+    // bool elFinded = false;
+    // for (var element in Get.find<RestaurantController>().restaurantsList.first.categories!) {
+    //   for (var pContainer in element.productContainers) {
+    //     ProductModel? findedEl = pContainer.products.firstWhereOrNull((food) => food.id == widget.productId);
+    //     if (findedEl != null) {
+    //       // product = findedEl;
+    //       productContainer = pContainer;
+    //       elFinded = true;
+    //       break;
+    //     }
+    //   }
+    //   if (elFinded) break;
+    // }
     _pageController = PageController(viewportFraction: 0.6);
     super.initState();
 
@@ -216,7 +225,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      product.price.toStringAsFixed(0),
+                                      productContainer.products.length == 1 ? product.price.toStringAsFixed(0) : 'От ${product.price.toStringAsFixed(0)}',
                                       style: MyTheme.of(context).textTheme.bodySmall!.copyWith(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold
@@ -233,11 +242,12 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                               ),
                               ProductQuantityChanger(
-                                product: product,
+                                products: productContainer.products,
                                 showTotalPrice: false,
                                 width: 125,
                                 height: 43,
                                 buttonWidth: 50,
+                                popoverDirection: PopoverDirection.bottom,
                               )
                               // GetBuilder<CartController>(
                               //   builder: (controller) {
