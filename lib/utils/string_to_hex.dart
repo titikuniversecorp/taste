@@ -1,4 +1,6 @@
 
+import 'package:flutter/foundation.dart';
+
 /// A powerful conversion of [String] or/and Hash to HEX.
 /// It returns a unique HEX, or a unique int of [Color()] per provided String/hash.
 /// It's provided two methods [toHexString] and [toColor], which return a Hex-String, or respectively.
@@ -34,9 +36,11 @@ class StringToHex {
 
       return '0xFF${rr.substring(rr.length - 2)}${gg.substring(gg.length - 2)}${bb.substring(bb.length - 2)}';
     } catch (err) {
-      print('Error: String Must be greater than range 2\n'
+      if (kDebugMode) {
+        print('Error: String Must be greater than range 2\n'
           '=========== hash string to hex ===========\n'
           '            string length = ${str.length}');
+      }
       return err.toString();
     }
   }
@@ -63,9 +67,11 @@ class StringToHex {
 
       return int.parse('0xFF${rr.substring(rr.length - 2)}${gg.substring(gg.length - 2)}${bb.substring(bb.length - 2)}');
     } catch (err) {
-      print('Error: String Must be greater than range 2\n'
+      if (kDebugMode) {
+        print('Error: String Must be greater than range 2\n'
           '=========== hash string to hex ===========\n'
           '            string length = ${str.length}');
+      }
       rethrow;
     }
   }

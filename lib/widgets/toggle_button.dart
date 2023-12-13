@@ -4,7 +4,7 @@ typedef OnSelected = void Function(int idx, ToggleButton instance);
 
 class ToggleButton extends StatefulWidget {
   const ToggleButton({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.labels,
@@ -19,8 +19,7 @@ class ToggleButton extends StatefulWidget {
   }):   assert(labels.length >= 2),
         assert(width > 0),
         assert(height > 0),
-        assert(cornerRadius > 0),
-        super(key: key);
+        assert(cornerRadius > 0);
 
   ///
   /// Width of a toggle button length, warning: this is not full length!!<br>

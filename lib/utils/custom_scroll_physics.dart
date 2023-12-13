@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class CustomScrollPhysics extends BouncingScrollPhysics { 
   final Function outerController;
   
-  const CustomScrollPhysics({required this.outerController, ScrollPhysics? parent}): super(parent: parent);
+  const CustomScrollPhysics({required this.outerController, super.parent});
   
   @override
   CustomScrollPhysics applyTo(ScrollPhysics? ancestor) {

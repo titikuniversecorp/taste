@@ -123,11 +123,11 @@ class MockDataGenerator {
               id: 3,
               products: [
                 ProductModel(
-                  id: 3,
+                  id: 31,
                   name: 'Сансет',
                   calories: 75,
                   price: 89,
-                  weight: 400,
+                  weight: 300,
                   waitTime: null,
                   imageUrl: 'assets/dishes/sam_menu/slime/slime.png',
                   galleryImages: [
@@ -139,7 +139,48 @@ class MockDataGenerator {
                   ingridients: [
                     IngridientModel(id: 0, name: 'Яйцо', imageUrl: 'assets/images/ingre3.png'),
                     IngridientModel(id: 2, name: 'Креветка', imageUrl: 'assets/images/ingre2.png'),
-                  ]
+                  ],
+                  variantLabel: 'Маленький'
+                ),
+                ProductModel(
+                  id: 32,
+                  name: 'Сансет',
+                  calories: 105,
+                  price: 109,
+                  weight: 500,
+                  waitTime: null,
+                  imageUrl: 'assets/dishes/sam_menu/slime/slime.png',
+                  galleryImages: [
+                    'assets/dishes/sam_menu/slime/slime.png'
+                  ],
+                  about: 'Состоит из двух видов сока',
+                  description: null,
+                  score: 4.3,
+                  ingridients: [
+                    IngridientModel(id: 0, name: 'Яйцо', imageUrl: 'assets/images/ingre3.png'),
+                    IngridientModel(id: 2, name: 'Креветка', imageUrl: 'assets/images/ingre2.png'),
+                  ],
+                  variantLabel: 'Средний'
+                ),
+                ProductModel(
+                  id: 33,
+                  name: 'Сансет',
+                  calories: 125,
+                  price: 129,
+                  weight: 700,
+                  waitTime: null,
+                  imageUrl: 'assets/dishes/sam_menu/slime/slime.png',
+                  galleryImages: [
+                    'assets/dishes/sam_menu/slime/slime.png'
+                  ],
+                  about: 'Состоит из двух видов сока',
+                  description: null,
+                  score: 4.3,
+                  ingridients: [
+                    IngridientModel(id: 0, name: 'Яйцо', imageUrl: 'assets/images/ingre3.png'),
+                    IngridientModel(id: 2, name: 'Креветка', imageUrl: 'assets/images/ingre2.png'),
+                  ],
+                  variantLabel: 'Большой'
                 ),
               ]
             ),

@@ -17,6 +17,8 @@ class ProductModel {
     final bool highLight;
     final int commentCount;
     final List<IngridientModel>? ingridients;
+    /// Надпись варианта блюда (например: маленький, средний или большой)
+    final String? variantLabel;
 
     ProductModel({
         required this.id,
@@ -32,7 +34,8 @@ class ProductModel {
         required this.weight,
         this.highLight = false, 
         this.commentCount = 0,
-        this.ingridients
+        this.ingridients,
+        this.variantLabel
     });
 
     factory ProductModel.foodFromJson(String str) => ProductModel.fromJson(json.decode(str));
@@ -56,6 +59,7 @@ class ProductModel {
         highLight: json["highLight"],
         commentCount: json["commentCount"],
         ingridients: json["ingridients"] == null ? [] : List<IngridientModel>.from(json["ingridients"]!.map((x) => IngridientModel.fromJson(x))),
+        variantLabel: json["variantLabel"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -73,5 +77,6 @@ class ProductModel {
         "highLight": highLight,
         "commentCount": commentCount,
         "ingridients": ingridients == null ? [] : List<dynamic>.from(ingridients!.map((x) => x.toJson())),
+        "variantLabel": variantLabel
     };
 }

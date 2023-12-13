@@ -5,9 +5,9 @@ class InheritedMyTheme extends InheritedWidget {
   final MyThemeData data;
   const InheritedMyTheme({
     required this.data,
-    required Widget child,
-    Key? key,
-  }):super(key: key, child: child,);
+    required super.child,
+    super.key,
+  });
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) =>     
       oldWidget != this;
