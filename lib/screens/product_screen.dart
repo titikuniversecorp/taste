@@ -27,12 +27,17 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
+    bool elFinded = false;
     for (var element in Get.find<RestaurantController>().restaurantsList.first.categories!) {
-      final findedEl = element.products.firstWhereOrNull((food) => food.id == widget.productId);
-      if (findedEl != null) {
-        product = findedEl;
-        break;
+      for (var pContainer in element.productContainers) {
+        ProductModel? findedEl = pContainer.products.firstWhereOrNull((food) => food.id == widget.productId);
+        if (findedEl != null) {
+          product = findedEl;
+          elFinded = true;
+          break;
+        }
       }
+      if (elFinded) break;
     }
     _pageController = PageController(viewportFraction: 0.6);
     super.initState();

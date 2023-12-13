@@ -37,9 +37,9 @@ class CategoryScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              itemCount: category.products.length,
+              itemCount: category.productContainers.length,
               separatorBuilder: (context, index) => const SizedBox(height: 15),
-              itemBuilder: (context, index) => ProductItem(product: category.products[index]),
+              itemBuilder: (context, index) => ProductItem(productContainer: category.productContainers[index]),
             ),
           ),
         ],

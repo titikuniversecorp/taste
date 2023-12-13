@@ -3,6 +3,30 @@ import 'package:taste/models/user_address_model.dart';
 import 'package:taste/services/api/mock_data_generator.dart';
 import 'package:taste/services/repositories/user_addresses_repo.dart';
 
+enum VisitingType {
+  /// В заведении
+  inPlace,
+
+  /// С собой (самовывоз)
+  pickup,
+
+  /// Доставка
+  delivery,
+}
+
+extension VisitingTypeExtension on VisitingType {
+  String get asString {
+    if (this == VisitingType.pickup) {
+      return 'С собой';
+    } else if (this == VisitingType.delivery) {
+      return 'Доставка';
+    } else if (this == VisitingType.inPlace) {
+      return 'В ресторане';
+    }
+    return 'null';
+  }
+}
+
 class UserAddressesController extends GetxController {
   UserAddressesController({required this.userAddressesRepo});
 
@@ -13,6 +37,10 @@ class UserAddressesController extends GetxController {
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
+
+  // ignore: prefer_final_fields
+  VisitingType _visitingType = VisitingType.pickup;
+  VisitingType get visitingType => _visitingType;
 
   Future<List<UserAddressModel>> getUserAddresses() async {
     final mockData = await MockDataGenerator.getUserAdresses();
@@ -31,10 +59,16 @@ class UserAddressesController extends GetxController {
 
   void setCurrentUserAddress(UserAddressModel userAddress) {
     userAddressesRepo.currentUserAddress = userAddress.userAddressToJson();
+    update();
   }
 
   UserAddressModel? getCurrentUserAddress() {
     if (userAddressesRepo.currentUserAddress != null) return UserAddressModel.userAddressFromJson(userAddressesRepo.currentUserAddress!);
     return null;
+  }
+
+  void setVisitingType(VisitingType value) {
+    _visitingType = value;
+    update();
   }
 }

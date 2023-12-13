@@ -4,6 +4,7 @@ import 'package:taste/widgets/custom_app_bar.dart';
 
 import '../controllers/user_addresses_comtroller.dart';
 import '../theme/my_theme.dart';
+import '../widgets/toggle_button.dart';
 
 class AddressSelectScreen extends StatefulWidget {
   const AddressSelectScreen({super.key, this.showAppBar = false});
@@ -45,6 +46,28 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                 'Мои адреса',
                 style: theme.textTheme.titleSmall,
               ),
+            ),
+            GetBuilder<UserAddressesController>(
+              builder: (controller) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ToggleButton(
+                      onSelected: (id, instance) {
+                        controller.setVisitingType(VisitingType.values[id]);
+                      },
+                      initialIndex: controller.visitingType.index,
+                      width: MediaQuery.of(context).size.width / VisitingType.values.length - 18, // last number is padding in this time
+                      height: 40,
+                      selectedColor: theme.brandColor,
+                      backgroundColor: theme.frontColor,
+                      enabledElementStyle: theme.textTheme.labelSmall?.copyWith(color: Colors.black),
+                      disabledElementStyle: theme.textTheme.labelSmall,
+                      labels: [...VisitingType.values.map((e) => e.asString)],
+                    ),
+                  ],
+                );
+              },
             ),
             GetBuilder<UserAddressesController>(
               builder: (controller) {

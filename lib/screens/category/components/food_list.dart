@@ -61,9 +61,9 @@ class _FoodListState extends State<FoodList> with TickerProviderStateMixin {
               children: [
                 ...category.map((c) => ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                  itemCount: c.products.length,
+                  itemCount: c.productContainers.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 15),
-                  itemBuilder: (context, index) => ProductItem(product: c.products[index]),
+                  itemBuilder: (context, index) => ProductItem(productContainer: c.productContainers[index]),
                 ))
               ]
             ),

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:taste/controllers/restaurant_controller.dart';
-import 'package:taste/models/product_model.dart';
-import 'package:taste/routes/route_helper.dart';
-import 'package:taste/theme/my_theme.dart';
 
+import '../../../controllers/restaurant_controller.dart';
+import '../../../models/product_category.dart';
+import '../../../routes/route_helper.dart';
+import '../../../theme/my_theme.dart';
 import '../../../widgets/product_quantity_changer.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key, required this.product});
+  const ProductItem({super.key, required this.productContainer});
 
-  final ProductModel product;
+  final ProductContainerModel productContainer;
 
   @override
   Widget build(BuildContext context) {
     final theme = MyTheme.of(context);
     return InkWell(
       onTap: () {
-        Get.toNamed(RouteHelper.product(product.id));
+        Get.toNamed(RouteHelper.product(productContainer.id));
       },
       borderRadius: BorderRadius.circular(20),
       child: Container(
@@ -41,8 +41,8 @@ class ProductItem extends StatelessWidget {
               width: 110,
               height: 110,
               child: Hero(
-                tag: 'product-image-${product.imageUrl}',
-                child: Image.asset(product.imageUrl ?? 'assets/image/no_image.png', fit: BoxFit.fitHeight,)
+                tag: 'product-image-${productContainer.products.first.imageUrl}',
+                child: Image.asset(productContainer.products.first.imageUrl ?? 'assets/image/no_image.png', fit: BoxFit.fitHeight,)
               ),
             ),
             Expanded(
@@ -57,7 +57,7 @@ class ProductItem extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            product.name,
+                            productContainer.products.first.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.labelMedium!.copyWith(height: 1.5),
@@ -72,11 +72,11 @@ class ProductItem extends StatelessWidget {
                     ),
                     IntrinsicWidth(
                       child: Text(
-                        product.about ?? '',
+                        productContainer.products.first.about ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodySmall!.copyWith(
-                          color: product.highLight ? theme.brandColor : theme.textTheme.bodySmall!.color
+                          color: productContainer.products.first.highLight ? theme.brandColor : theme.textTheme.bodySmall!.color
                         ),
                       ),
                     ),
@@ -84,7 +84,7 @@ class ProductItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${product.price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}',
+                          '${productContainer.products.first.price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}',
                           style: theme.textTheme.bodySmall!.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -92,14 +92,14 @@ class ProductItem extends StatelessWidget {
                         ),
                         Text(' • ', style: theme.textTheme.bodySmall),
                         Text(
-                          '${product.weight} г',
+                          '${productContainer.products.first.weight} г',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.bodySmall!.copyWith(height: 2)
                         ),
                         const Spacer(),
                         ProductQuantityChanger(
-                          product: product,
+                          product: productContainer.products.first,
                           showTotalPrice: false
                         )
                       ],
