@@ -18,4 +18,9 @@ class UserAddressesRepo extends GetxService {
   set currentUserAddress(String? value) {
     sharedPreferences.setString('currentUserAddress', value ?? '');
   }
+
+  int? get lastSelectedRestorauntAddressId => sharedPreferences.getInt('lastSelectedRestorauntAddressId');
+  set lastSelectedRestorauntAddressId(int? value) {
+    sharedPreferences.setInt('lastSelectedRestorauntAddressId', value ?? -1);
+  }
 }

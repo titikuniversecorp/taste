@@ -1,10 +1,15 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:taste/controllers/cart_controller.dart';
 
+import '../../controllers/restaurant_controller.dart';
+import '../../controllers/user_addresses_comtroller.dart';
 import '../../theme/my_theme.dart';
 import '../../widgets/icon_and_text.dart';
+import '../address_select_screen.dart';
 import 'components/product_in_cart_item.dart';
 
 /// Показывает, открыта ли сейчас корзина или нет. Нужно для определения: стоит ли выходить назад при полном обнулении корзины
@@ -63,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 ListView(
                   primary: true,
-                  padding: EdgeInsets.only(top: Get.mediaQuery.padding.top + 10, bottom: 10, left: 15, right: 15),
+                  padding: const EdgeInsets.only(top: 35, bottom: 10, left: 15, right: 15),
                   children: [
                     ListView.separated(
                       padding: EdgeInsets.zero,
@@ -96,8 +101,9 @@ class _CartScreenState extends State<CartScreen> {
                       ]
                     ),
                     const SizedBox(height: 30),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {},
+                      borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: Row(
@@ -112,24 +118,62 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Агеева, 1А',
-                              style: theme.textTheme.labelSmall!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    GetBuilder<UserAddressesController>(
+                      builder: (controller) {
+                        var userAddressModel = controller.getCurrentUserAddress();
+                        String currentAddress = controller.visitingType == VisitingType.delivery 
+                          ? userAddressModel?.shortAddressAsString ?? 'Выберите адрес'
+                          : Get.find<RestaurantController>().restaurantsList.firstWhereOrNull((element) => element.address.id == controller.userAddressesRepo.lastSelectedRestorauntAddressId)?.address.shortAddressAsString ?? 'Выберите адрес';
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            showCupertinoModalBottomSheet(
+                              context: context,
+                              enableDrag: false,
+                              backgroundColor: MyTheme.of(context).backgroundColor,
+                              builder: (context) => const AddressSelectScreen(),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Flexible(
+                                        child: TextOneLine(
+                                          currentAddress,
+                                          style: theme.textTheme.labelSmall!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                        decoration: BoxDecoration(
+                                          color: MyTheme.of(context).brandColor,
+                                          borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        child: Text(
+                                          controller.visitingType.asString,
+                                          style: MyTheme.of(context).textTheme.labelSmall?.copyWith(fontSize: 14, color: Colors.black),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Icon(Icons.arrow_forward_ios_rounded, color: theme.textTheme.labelSmall!.color, size: 18)
+                              ],
                             ),
-                            Icon(Icons.arrow_forward_ios_rounded, color: theme.textTheme.labelSmall!.color, size: 18)
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      }
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {},
+                      borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: Row(

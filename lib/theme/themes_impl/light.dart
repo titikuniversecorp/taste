@@ -11,6 +11,8 @@ final lightAppTheme = MyThemeData(
     cupertinoOverrideTheme: const CupertinoThemeData(
       textTheme: CupertinoTextThemeData(), // This is required
     ),
+    // brightness: Brightness.light,
+    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFDBF30))
   ),
   brightness: Brightness.light,
   backgroundColor: const Color(0xFFF5F5F5),

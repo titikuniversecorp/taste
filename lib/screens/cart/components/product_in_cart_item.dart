@@ -54,11 +54,18 @@ class ProductInCartItem extends StatelessWidget {
                     softWrap: true,
                     style: theme.textTheme.labelMedium!.copyWith(height: 1.1),
                   ),
+                  if (product.variantLabel != null) Text(
+                    '(${product.variantLabel!})',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    style: theme.textTheme.labelSmall!.copyWith(height: 1.1),
+                  ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '${product.price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}',
+                        '${product.price.toStringAsFixed(0)}${Get.find<RestaurantController>().currentRestaurant.currency}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodySmall!.copyWith(height: 2)

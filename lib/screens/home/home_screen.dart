@@ -30,22 +30,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   HomeScreenUIVariant homeScreenUIVariant = HomeScreenUIVariant.listTab;
-  TabController? productsTabController;
+  late TabController productsTabController;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      var restaurans = await Get.find<RestaurantController>().getRestaurans();
-      setState(() {
-        productsTabController = TabController(length: restaurans.first.categories!.length, vsync: this);
-      });
+    var restaurant = Get.find<RestaurantController>();
+    productsTabController = TabController(length: restaurant.currentRestaurant.categories!.length, vsync: this);
+    restaurant.addListener(() {
+      productsTabController = TabController(length: restaurant.currentRestaurant.categories!.length, vsync: this);
     });
   }
 
   @override
   void dispose() {
-    productsTabController?.dispose();
+    productsTabController.dispose();
     super.dispose();
   }
 
@@ -170,8 +169,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             children: [
                               GetBuilder<UserAddressesController>(
                                 builder: (controller) {
-                                  UserAddressModel? userAddressModel = controller.getCurrentUserAddress();
-                                  String currentAddress = userAddressModel != null ? userAddressModel.shortAddressAsString : 'Выберите адрес';
+                                  AddressModel? userAddressModel = controller.getCurrentUserAddress();
+                                  String currentAddress = controller.visitingType == VisitingType.delivery 
+                                    ? userAddressModel?.shortAddressAsString ?? 'Выберите адрес'
+                                    : Get.find<RestaurantController>().restaurantsList.firstWhereOrNull((element) => element.address.id == controller.userAddressesRepo.lastSelectedRestorauntAddressId)?.address.shortAddressAsString ?? 'Выберите адрес';
                                   return Flexible(
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -244,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     return const CircularProgressIndicator.adaptive();
                   } 
                   else {
-                    return BannerListView(banners: controller.restaurantsList.first.banners);
+                    return BannerListView(banners: controller.currentRestaurant.banners);
                   }
                 }
               )
@@ -256,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               extent: 100,
               widget: GetBuilder<RestaurantController>(
                 builder: (controller) {
-                  if (controller.isLoading == false && productsTabController != null) {
+                  if (controller.isLoading == false) {
                     return Theme(
                       data: MyTheme.of(context).themeData.copyWith(
                         colorScheme: MyTheme.of(context).themeData.colorScheme.copyWith(surfaceVariant: Colors.transparent) // Это чтобы убрать подчёркивание постоянное у всех элементов tabbar
@@ -276,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         labelColor: MyTheme.of(context).textTheme.bodyMedium!.color,
                         unselectedLabelColor: MyTheme.of(context).textTheme.bodyMedium!.color!.withOpacity(.54),
                         tabs: [
-                          ...controller.restaurantsList.first.categories!.map((e) => Tab(icon: Image.asset(e.backgroundImageUrl!, height: 60), height: 100, text: e.name,))
+                          ...controller.currentRestaurant.categories!.map((e) => Tab(icon: Image.asset(e.backgroundImageUrl!, height: 60), height: 100, text: e.name,))
                         ]
                       ),
                     );
@@ -319,14 +320,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     primary: false,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: controller.restaurantsList.first.categories!.length,//restaurantModel.foodCategories!.length,
+                    itemCount: controller.currentRestaurant.categories!.length,//restaurantModel.foodCategories!.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       childAspectRatio: 3 / 4
                     ),
-                    itemBuilder: (context, index) => CategoryCard3x4(caregory: controller.restaurantsList.first.categories![index]),
+                    itemBuilder: (context, index) => CategoryCard3x4(caregory: controller.currentRestaurant.categories![index]),
                   );
                 }
               }
@@ -356,14 +357,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     primary: false,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: controller.restaurantsList.first.categories!.length,//restaurantModel.foodCategories!.length,
+                    itemCount: controller.currentRestaurant.categories!.length,//restaurantModel.foodCategories!.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       childAspectRatio: 3 / 1
                     ),
-                    itemBuilder: (context, index) => CategoryCard3x1(caregory: controller.restaurantsList.first.categories![index]),
+                    itemBuilder: (context, index) => CategoryCard3x1(caregory: controller.currentRestaurant.categories![index]),
                   );
                 }
               }
@@ -380,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               return TabBarView(
                 controller: productsTabController,
                 children: [
-                  ...controller.restaurantsList.first.categories!
+                  ...controller.currentRestaurant.categories!
                     .map((e) => ListView.separated(
                       shrinkWrap: true,
                       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom, top: 10, left: 15, right: 15),

@@ -68,17 +68,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (controller.restaurantsList.first.logoUrl != null) ClipRRect(
+                        if (controller.currentRestaurant.logoUrl != null) ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(controller.restaurantsList.first.logoUrl!, height: MediaQuery.of(context).size.height * 0.15)
+                          child: Image.asset(controller.currentRestaurant.logoUrl!, height: MediaQuery.of(context).size.height * 0.15)
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          controller.restaurantsList.first.name,
+                          controller.currentRestaurant.name,
                           style: MyTheme.of(context).textTheme.titleSmall,
                         ),
-                        // if (controller.restaurantsList.first.description != null) Text(
-                        //   controller.restaurantsList.first.description!,
+                        // if (controller.currentRestaurant.description != null) Text(
+                        //   controller.currentRestaurant.description!,
                         //   textAlign: TextAlign.justify,
                         //   maxLines: 10,
                         //   overflow: TextOverflow.ellipsis,

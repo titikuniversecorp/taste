@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:get/get.dart';
 import 'package:popover/popover.dart';
 
@@ -44,7 +45,7 @@ class ProductQuantityChanger extends StatelessWidget {
                     )
                   ),
                   Text(
-                    Get.find<RestaurantController>().restaurantsList.first.currency,
+                    Get.find<RestaurantController>().currentRestaurant.currency,
                     style: theme.textTheme.bodySmall!.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold
@@ -76,6 +77,7 @@ class ProductQuantityChanger extends StatelessWidget {
                               if (products.length == 1) {
                                 controller.setProductQuantity(products.first, isAddition: false);
                               } else {
+                                Vibrate.feedback(FeedbackType.impact);
                                 showPopover(
                                   context: context,
                                   bodyBuilder: (context) => ProductVariantSelector(products),
@@ -114,6 +116,7 @@ class ProductQuantityChanger extends StatelessWidget {
                               if (products.length == 1) {
                                 controller.setProductQuantity(products.first, isAddition: true);
                               } else {
+                                Vibrate.feedback(FeedbackType.impact);
                                 showPopover(
                                   context: context,
                                   bodyBuilder: (context) => ProductVariantSelector(products),
@@ -207,7 +210,7 @@ class ProductVariantSelector extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '${products[index].price.toStringAsFixed(0)}${Get.find<RestaurantController>().restaurantsList.first.currency}',
+                    '${products[index].price.toStringAsFixed(0)}${Get.find<RestaurantController>().currentRestaurant.currency}',
                     style: theme.textTheme.bodySmall,
                   ),
                   Text(' • ', style: theme.textTheme.bodySmall),

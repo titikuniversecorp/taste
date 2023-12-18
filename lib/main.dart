@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taste/controllers/cart_controller.dart';
 
+import 'controllers/restaurant_controller.dart';
 import 'helpers/dependencies.dart';
 import 'routes/route_helper.dart';
 import 'theme/my_theme.dart';
@@ -33,19 +34,23 @@ class MyApp extends StatelessWidget {
       );
     });
 
-    // Этот GetBuilder нужен только чтобы этот контроллер не удалялся из памяти (issue fix). По назначению не используется!
-    return GetBuilder<CartController>(
+    // Эти GetBuilder нужны только чтобы эти контроллеры не удалялись из памяти (issue fix). По назначению не используется!
+    return GetBuilder<RestaurantController>(
       builder: (_) {
-        return GetMaterialApp(
-          title: 'Taste',
-          debugShowCheckedModeBanner: false,
-          builder: (context, child) => MyTheme(
-            light: lightAppTheme,
-            dark: darkAppTheme,
-            child: child ?? ErrorWidget('Child needed!')
-          ),
-          initialRoute: RouteHelper.initial(),
-          getPages: RouteHelper.routes,
+        return GetBuilder<CartController>(
+          builder: (_) {
+            return GetMaterialApp(
+              title: 'Taste',
+              debugShowCheckedModeBanner: false,
+              builder: (context, child) => MyTheme(
+                light: lightAppTheme,
+                dark: darkAppTheme,
+                child: child ?? ErrorWidget('Child needed!')
+              ),
+              initialRoute: RouteHelper.initial(),
+              getPages: RouteHelper.routes,
+            );
+          }
         );
       }
     );

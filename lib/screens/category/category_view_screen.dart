@@ -15,7 +15,7 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final category = Get.find<RestaurantController>().restaurantsList.first.categories!.firstWhere((element) => element.id == categoryId);
+    final category = Get.find<RestaurantController>().currentRestaurant.categories!.firstWhere((element) => element.id == categoryId);
     final theme = MyTheme.of(context);
 
     return Scaffold(

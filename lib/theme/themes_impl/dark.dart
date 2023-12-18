@@ -12,6 +12,8 @@ final darkAppTheme = MyThemeData(
     cupertinoOverrideTheme: const CupertinoThemeData(
       textTheme: CupertinoTextThemeData(), // This is required
     ),
+    // brightness: Brightness.dark,
+    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFDBF30))
   ),
   brightness: Brightness.dark,
   backgroundColor: const Color.fromARGB(255, 36, 36, 37), //const Color(0xFF1f1f1f),

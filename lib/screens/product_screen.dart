@@ -31,12 +31,12 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    for (var category in Get.find<RestaurantController>().restaurantsList.first.categories!) {
+    for (var category in Get.find<RestaurantController>().currentRestaurant.categories!) {
       ProductContainerModel? finedProductContainer = category.productContainers.firstWhereOrNull((element) => element.id == widget.productId);
       if (finedProductContainer != null) productContainer = finedProductContainer;
     }
     // bool elFinded = false;
-    // for (var element in Get.find<RestaurantController>().restaurantsList.first.categories!) {
+    // for (var element in Get.find<RestaurantController>().currentRestaurant.categories!) {
     //   for (var pContainer in element.productContainers) {
     //     ProductModel? findedEl = pContainer.products.firstWhereOrNull((food) => food.id == widget.productId);
     //     if (findedEl != null) {
@@ -232,7 +232,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       )
                                     ),
                                     Text(
-                                      Get.find<RestaurantController>().restaurantsList.first.currency,
+                                      Get.find<RestaurantController>().currentRestaurant.currency,
                                       style: MyTheme.of(context).textTheme.bodySmall!.copyWith(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold

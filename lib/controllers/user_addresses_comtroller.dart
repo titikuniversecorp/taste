@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:taste/controllers/restaurant_controller.dart';
 import 'package:taste/models/user_address_model.dart';
 import 'package:taste/services/api/mock_data_generator.dart';
 import 'package:taste/services/repositories/user_addresses_repo.dart';
@@ -32,8 +33,8 @@ class UserAddressesController extends GetxController {
 
   final UserAddressesRepo userAddressesRepo;
 
-  List<UserAddressModel> _userAdressesList = [];
-  List<UserAddressModel> get userAdressesList => _userAdressesList;
+  List<AddressModel> _userAdressesList = [];
+  List<AddressModel> get userAdressesList => _userAdressesList;
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -41,13 +42,17 @@ class UserAddressesController extends GetxController {
   // ignore: prefer_final_fields
   VisitingType _visitingType = VisitingType.pickup;
   VisitingType get visitingType => _visitingType;
+  set visitingType(VisitingType value) {
+    _visitingType = value;
+    update();
+  }
 
-  Future<List<UserAddressModel>> getUserAddresses() async {
+  Future<List<AddressModel>> getUserAddresses() async {
     final mockData = await MockDataGenerator.getUserAdresses();
-    Response response = Response(statusCode: 200, body: UserAddressModel.userAddressesToJson(mockData));//await userAddressesRepo.getUserAddresses();
+    Response response = Response(statusCode: 200, body: AddressModel.addressesToJson(mockData));//await userAddressesRepo.getUserAddresses();
     if (response.statusCode == 200) {
       _userAdressesList = [];
-      _userAdressesList.addAll(UserAddressModel.userAddressesFromJson(response.body));
+      _userAdressesList.addAll(AddressModel.addressesFromJson(response.body));
       _isLoading = false;
       update();
     }
@@ -57,18 +62,20 @@ class UserAddressesController extends GetxController {
     return userAdressesList;
   }
 
-  void setCurrentUserAddress(UserAddressModel userAddress) {
-    userAddressesRepo.currentUserAddress = userAddress.userAddressToJson();
+  void setCurrentUserAddress(AddressModel userAddress) {
+    userAddressesRepo.currentUserAddress = userAddress.addressToJson();
     update();
   }
 
-  UserAddressModel? getCurrentUserAddress() {
-    if (userAddressesRepo.currentUserAddress != null) return UserAddressModel.userAddressFromJson(userAddressesRepo.currentUserAddress!);
+  AddressModel? getCurrentUserAddress() {
+    if (userAddressesRepo.currentUserAddress != null) return AddressModel.addressFromJson(userAddressesRepo.currentUserAddress!);
     return null;
   }
 
-  void setVisitingType(VisitingType value) {
-    _visitingType = value;
+  set currentRestorauntAddressId(int? value) {
+    userAddressesRepo.lastSelectedRestorauntAddressId = value;
     update();
+    Get.find<RestaurantController>().update();
   }
+  int? get currentRestorauntAddressId => userAddressesRepo.lastSelectedRestorauntAddressId;
 }

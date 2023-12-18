@@ -1,7 +1,7 @@
 
 import 'dart:convert';
 
-class UserAddressModel {
+class AddressModel {
   final int id;
   final String city;
   final String street;
@@ -11,7 +11,7 @@ class UserAddressModel {
   final String? floor;
   final String? intercom;
 
-  UserAddressModel({
+  AddressModel({
     required this.id,
     required this.city,
     required this.street,
@@ -22,18 +22,18 @@ class UserAddressModel {
     this.intercom
   });
 
-  factory UserAddressModel.userAddressFromJson(String str) => UserAddressModel.fromJson(json.decode(str));
-  static List<UserAddressModel> userAddressesFromJson(String str) => List<UserAddressModel>.from(json.decode(str).map((x) => UserAddressModel.fromJson(x)));
+  factory AddressModel.addressFromJson(String str) => AddressModel.fromJson(json.decode(str));
+  static List<AddressModel> addressesFromJson(String str) => List<AddressModel>.from(json.decode(str).map((x) => AddressModel.fromJson(x)));
 
-  String userAddressToJson() => json.encode(toJson());
-  static String userAddressesToJson(List<UserAddressModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+  String addressToJson() => json.encode(toJson());
+  static String addressesToJson(List<AddressModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
   String get shortAddressAsString {
     String address = "$street, $house";
     return address;
   }
 
-  factory UserAddressModel.fromJson(Map<String, dynamic> json) => UserAddressModel(
+  factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
     id: json["id"],
     city: json["city"],
     street: json["street"],

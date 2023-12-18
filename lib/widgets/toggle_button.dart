@@ -123,10 +123,12 @@ class _State extends State<ToggleButton> {
     return Material(
       borderRadius: _roundedRadius,
       color: widget.backgroundColor,
-      child: GestureDetector(
-        // highlightColor: Colors.white54,
-        // borderRadius: _roundedRadius,
-        // radius: 50,
+      child: InkWell(
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        borderRadius: _roundedRadius,
+        radius: 50,
         onTap: () {},
         onTapUp: (TapUpDetails details) {
           final int index = details.localPosition.dx ~/ widget.width;

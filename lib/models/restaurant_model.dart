@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:taste/models/product_category.dart';
 
 import 'banner_model.dart';
+import 'user_address_model.dart';
 
 class RestaurantModel {
   final int id;
@@ -14,6 +15,7 @@ class RestaurantModel {
   final String? logoUrl;
   final String? description;
   final String currency;
+  final AddressModel address;
   final List<ProductCategoryModel>? categories;
   final List<BannerModel>? banners;
 
@@ -26,6 +28,7 @@ class RestaurantModel {
     this.score,
     this.logoUrl,
     this.description,
+    required this.address,
     required this.currency,
     this.categories,
     this.banners
@@ -47,6 +50,7 @@ class RestaurantModel {
     logoUrl: json["logoUrl"],
     description: json["description"],
     currency: json["currency"],
+    address: AddressModel.fromJson(json["address"]),
     categories: json["foodCategories"] == null ? [] : List<ProductCategoryModel>.from(json["foodCategories"]!.map((x) => ProductCategoryModel.fromJson(x))),
     banners: json["banners"] == null ? [] : List<BannerModel>.from(json["banners"]!.map((x) => BannerModel.fromJson(x))),
   );
@@ -61,6 +65,7 @@ class RestaurantModel {
     "logoUrl": logoUrl,
     "description": description,
     "currency": currency,
+    "address": address.toJson(),
     "foodCategories": categories == null ? [] : List<dynamic>.from(categories!.map((x) => x.toJson())),
     "banners": banners == null ? [] : List<dynamic>.from(banners!.map((x) => x.toJson())),
   };
